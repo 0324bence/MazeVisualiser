@@ -1,48 +1,27 @@
-//Import the CSS file
 import "./styles/style.css";
+import Game from "./objects/Game";
+import Settings from "./objects/Settings";
 
-//Define the size of the grid in pixels and the size of each cell
-const SIZE = 800;
-const CELL_SIZE = 25;
-
-//Get the canvas element from the DOM and set its size
 const canvas = document.getElementById("main-canvas") as HTMLCanvasElement;
-canvas.width = canvas.height = SIZE;
-//Get the context of the canvas to draw on it
-const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+canvas.width = canvas.height = Settings.SIZE;
 
-//Draw a grid out of lines
-ctx.strokeStyle = "black";
-ctx.lineWidth = 1;
-for (let i = 0; i < SIZE; i += CELL_SIZE) {
-    ctx.beginPath();
-    ctx.moveTo(i, 0);
-    ctx.lineTo(i, SIZE);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(0, i);
-    ctx.lineTo(SIZE, i);
-    ctx.stroke();
+const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+const currentGame = new Game(ctx, canvas);
+
+console.log(currentGame);
+
+let lastFrame = 0;
+
+function mainLoop(time: number) {
+    requestAnimationFrame(mainLoop);
+    if (!((time - lastFrame) / 1000 > 1 / Settings.FPS)) return;
+    lastFrame = time;
+
+    currentGame.Loop();
 }
 
-//fill grid cells with red color on click
-canvas.addEventListener("click", e => {
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    ctx.fillStyle = "red";
-    ctx.fillRect(x - (x % CELL_SIZE), y - (y % CELL_SIZE), CELL_SIZE, CELL_SIZE);
-});
+mainLoop(0);
 
-//also fill grid cells with red color on mouse drag
-canvas.addEventListener("mousemove", e => {
-    if (e.buttons === 1) {
-        const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        ctx.fillStyle = "red";
-        ctx.fillRect(x - (x % CELL_SIZE), y - (y % CELL_SIZE), CELL_SIZE, CELL_SIZE);
-    }
-});
+canvas.addEventListener("mousemove", currentGame.Move.bind(currentGame));
 
 export {};
