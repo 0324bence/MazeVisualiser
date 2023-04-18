@@ -5,11 +5,17 @@ enum CellType {
     Empty = 0,
     Start,
     End,
-    Wall
+    Wall,
+    Route,
 }
 
 class Cell extends BaseRect {
     public type: CellType = CellType.Empty;
+    public g: number = 0;
+    public h: number = 0;
+    public f: number = 0;
+    public parent: Cell | undefined;
+
     constructor(ctx: CanvasRenderingContext2D, public col: number, public row: number) {
         super(ctx);
     }
@@ -27,6 +33,9 @@ class Cell extends BaseRect {
                 break;
             case CellType.Wall:
                 this.ctx.fillStyle = "#000";
+                break;
+            case CellType.Route:
+                this.ctx.fillStyle = "#36f";
                 break;
         }
 
