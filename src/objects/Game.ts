@@ -63,7 +63,7 @@ class Game {
         const success = this.pathFinding.Step();
         if (success) {
             this.isRunning = false;
-            this.pathFinding.BackTrace();
+            this.pathFinding.Finish();
         }
     }
 }

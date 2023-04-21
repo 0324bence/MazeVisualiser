@@ -1,8 +1,10 @@
+import BasePathFinding from "./BasePathFinding";
 import Cell, { CellType } from "./Cell";
-import Settings from "./Settings";
 
-class Path {
-    constructor(private grid: Cell[][], public startCoords: [number, number], public endCoords: [number, number]) {}
+class Path extends BasePathFinding {
+    constructor(grid: Cell[][], startCoords: [number, number], endCoords: [number, number]) {
+        super(grid, startCoords, endCoords);
+    }
 
     private foundPath = 0;
     private currentIteration = 0;
@@ -22,7 +24,7 @@ class Path {
         return neighbours.filter(Boolean);
     }
 
-    public Step() {
+    public Step(): boolean {
         this.currentIteration++;
         const startCell = this.grid[this.startCoords[0]][this.startCoords[1]];
         startCell.data.distance = 0;
@@ -60,7 +62,8 @@ class Path {
         return false;
     }
 
-    public async BackTrace() {
+    //Backtracing
+    public async Finish() {
         if (!this.foundPath) return;
         const endCell = this.grid[this.endCoords[0]][this.endCoords[1]];
         this.grid[this.startCoords[0]][this.startCoords[1]].data.distance = 0;
