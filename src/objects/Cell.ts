@@ -7,14 +7,13 @@ enum CellType {
     End,
     Wall,
     Route,
+    Open,
+    Closed
 }
 
 class Cell extends BaseRect {
     public type: CellType = CellType.Empty;
-    public g: number = 0;
-    public h: number = 0;
-    public f: number = 0;
-    public parent: Cell | undefined;
+    public data: any = {};
 
     constructor(ctx: CanvasRenderingContext2D, public col: number, public row: number) {
         super(ctx);
@@ -35,7 +34,13 @@ class Cell extends BaseRect {
                 this.ctx.fillStyle = "#000";
                 break;
             case CellType.Route:
-                this.ctx.fillStyle = "#36f";
+                this.ctx.fillStyle = "#f0f";
+                break;
+            case CellType.Open:
+                this.ctx.fillStyle = "#0ef";
+                break;
+            case CellType.Closed:
+                this.ctx.fillStyle = "#05f";
                 break;
         }
 
@@ -45,6 +50,12 @@ class Cell extends BaseRect {
             Settings.CELL_SIZE,
             Settings.CELL_SIZE
         );
+        //Debug cell numbers
+
+        this.ctx.font = "7px Arial";
+        this.ctx.fillStyle = "#000";
+        //this.ctx.fillText(`${this.row} ${this.col}`, this.col * Settings.CELL_SIZE, this.row * Settings.CELL_SIZE + 5);
+        this.ctx.fillText(this.data.distance ?? "?", this.col * Settings.CELL_SIZE, this.row * Settings.CELL_SIZE + 5);
     }
 }
 
