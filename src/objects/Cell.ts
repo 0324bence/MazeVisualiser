@@ -13,7 +13,14 @@ enum CellType {
 
 class Cell extends BaseRect {
     public type: CellType = CellType.Empty;
-    public data: any = {};
+    public _data: any = {};
+    // Create getter and setter for data
+    public get data(): any {
+        return this._data;
+    }
+    public set data(value) {
+        this._data = value;
+    }
 
     constructor(ctx: CanvasRenderingContext2D, public col: number, public row: number) {
         super(ctx);
@@ -55,7 +62,7 @@ class Cell extends BaseRect {
         this.ctx.font = "7px Arial";
         this.ctx.fillStyle = "#000";
         //this.ctx.fillText(`${this.row} ${this.col}`, this.col * Settings.CELL_SIZE, this.row * Settings.CELL_SIZE + 5);
-        this.ctx.fillText(this.data.distance ?? "?", this.col * Settings.CELL_SIZE, this.row * Settings.CELL_SIZE + 5);
+        //this.ctx.fillText(this.data.distance ?? "?", this.col * Settings.CELL_SIZE, this.row * Settings.CELL_SIZE + 5);
     }
 }
 

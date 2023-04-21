@@ -13,12 +13,11 @@ class Path {
             this.grid[node.row - 1] && this.grid[node.row - 1][node.col],
             this.grid[node.row + 1] && this.grid[node.row + 1][node.col],
             this.grid[node.row] && this.grid[node.row][node.col - 1],
-            this.grid[node.row] && this.grid[node.row][node.col + 1],
-            // TODO make work without diagonals
-            this.grid[node.row - 1] && this.grid[node.col - 1] && this.grid[node.row - 1][node.col - 1],
-            this.grid[node.row + 1] && this.grid[node.col - 1] && this.grid[node.row + 1][node.col - 1],
-            this.grid[node.row - 1] && this.grid[node.col + 1] && this.grid[node.row - 1][node.col + 1],
-            this.grid[node.row + 1] && this.grid[node.col + 1] && this.grid[node.row + 1][node.col + 1]
+            this.grid[node.row] && this.grid[node.row][node.col + 1]
+            // this.grid[node.row - 1] && this.grid[node.col - 1] && this.grid[node.row - 1][node.col - 1],
+            // this.grid[node.row + 1] && this.grid[node.col - 1] && this.grid[node.row + 1][node.col - 1],
+            // this.grid[node.row - 1] && this.grid[node.col + 1] && this.grid[node.row - 1][node.col + 1],
+            // this.grid[node.row + 1] && this.grid[node.col + 1] && this.grid[node.row + 1][node.col + 1]
         ];
         return neighbours.filter(Boolean);
     }
@@ -49,7 +48,7 @@ class Path {
                 node.type = CellType.Open;
                 //console.log("Open", node.row, node.col, `neighbour of: ${cell.row}, ${cell.col}`);
             }
-            cell.data.distance = this.currentIteration;
+            cell.data = { distance: this.currentIteration };
             cell.type = CellType.Closed;
             //console.log("Close", cell.row, cell.col);
         }
@@ -58,11 +57,13 @@ class Path {
             console.log("finish ");
             return true;
         }
+        return false;
     }
 
     public async BackTrace() {
         if (!this.foundPath) return;
         const endCell = this.grid[this.endCoords[0]][this.endCoords[1]];
+        this.grid[this.startCoords[0]][this.startCoords[1]].data.distance = 0;
         let currentCell = endCell;
         let currentSmallest = this.currentIteration;
         console.log(this.foundPath, currentCell.row, currentCell.col, currentSmallest);
