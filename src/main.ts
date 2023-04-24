@@ -22,7 +22,7 @@ function mainLoop(time: number) {
 
     --framesUntilStep;
     if (framesUntilStep <= 0) {
-        framesUntilStep = 5;
+        framesUntilStep = 1;
         currentGame.Step();
     }
 }
@@ -31,6 +31,6 @@ mainLoop(0);
 
 canvas.addEventListener("mousemove", currentGame.Move.bind(currentGame));
 canvas.addEventListener("mousedown", currentGame.Click.bind(currentGame));
-document.addEventListener("keyup", currentGame.OnKeyPress.bind(currentGame));
+document.addEventListener("keydown", currentGame.OnKeyPress.bind(currentGame));
 
 export {};
