@@ -1,9 +1,11 @@
 import Settings from "./Settings";
 import Cell, { CellType } from "./Cell";
+import Path from "./CPathFinding";
 
 class Game {
     public cells: Cell[][] = new Array(Settings.CELL_COUNT);
     public isRunning = false;
+    public pathFinding: Path;
 
     constructor(public ctx: CanvasRenderingContext2D, public canvas: HTMLCanvasElement) {
         for (let row = 0; row < Settings.CELL_COUNT; row++) {
@@ -13,7 +15,13 @@ class Game {
             }
         }
 
+        this.pathFinding = new Path(this.cells, [0, 0], [Settings.CELL_COUNT - 1, Settings.CELL_COUNT - 1]);
+
+        //start
         this.cells[0][0].type = CellType.Start;
+
+        //End
+        this.cells[Settings.CELL_COUNT - 1][Settings.CELL_COUNT - 1].type = CellType.End;
     }
 
     public Click(e: MouseEvent) {
@@ -35,12 +43,7 @@ class Game {
     public OnKeyPress(e: KeyboardEvent) {
         if (e.key == " ") {
             this.isRunning = !this.isRunning;
-            console.log((this.isRunning ? "Started" : "Stopped"));
-
-            const result = this.aStar(this.cells[0][0], this.cells[Settings.CELL_COUNT-1][Settings.CELL_COUNT-1]);
-            for (let cell of result) {
-                this.cells[cell.row][cell.col].type = CellType.Route;
-            }
+            console.log(this.isRunning ? "Started" : "Stopped");
         }
     }
 
@@ -53,82 +56,15 @@ class Game {
         }
     }
 
-    public heuristic(pointA: Cell, pointB: Cell): number {
-        return Math.sqrt(Math.pow(pointA.col - pointB.col, 2) + Math.pow(pointA.row - pointB.row, 2));
-    }
-
-    public GetNeighbours(node: Cell) {
-        let neighbors = [
-            this.cells[node.col - 1] && this.cells[node.col - 1][node.row],
-            this.cells[node.col + 1] && this.cells[node.col + 1][node.row],
-            this.cells[node.col] && this.cells[node.col][node.row - 1],
-            this.cells[node.col] && this.cells[node.col][node.row + 1]
-        ].filter(Boolean);
-        return neighbors;
-    }
-
-    public aStar(startNode: Cell, endNode: Cell) {
-        // Create the open and closed lists
-        let openList: Cell[] = [];
-        let closedList: Cell[] = [];
-        // Add the start node to the open list
-        openList.push(startNode);
-        // While the open list is not empty
-        while (openList.length > 0) {
-            // Find the node with the least f on the open list
-            let lowInd = 0;
-            for (let i = 0; i < openList.length; i++) {
-                if (openList[i].f < openList[lowInd].f) {
-                    lowInd = i;
-                }
-            }
-            let currentNode = openList[lowInd];
-            // If the current node is the end node, return the path
-            if (currentNode === endNode) {
-                let curr = currentNode;
-                let ret = [];
-                while (curr.parent) {
-                    ret.push(curr);
-                    curr = curr.parent;
-                }
-                return ret.reverse();
-            }
-            // Remove the current node from the open list and add it to the closed list
-            openList.splice(openList.indexOf(currentNode), 1);
-            closedList.push(currentNode);
-            // Generate the current node's neighbors
-            let neighbors = this.GetNeighbours(currentNode);
-            for (let i = 0; i < neighbors.length; i++) {
-                let neighbor = neighbors[i];
-                if (closedList.includes(neighbor)) {
-                    continue;
-                }
-                // Calculate g, h, and f for the neighbor
-                let gScore = currentNode.g + 1;
-                let gScoreIsBest = false;
-                if (!openList.includes(neighbor)) {
-                    gScoreIsBest = true;
-                    neighbor.h = this.heuristic(neighbor, endNode);
-                    openList.push(neighbor);
-                } else if (gScore < neighbor.g) {
-                    gScoreIsBest = true;
-                }
-                if (gScoreIsBest) {
-                    neighbor.parent = currentNode;
-                    neighbor.g = gScore;
-                    neighbor.f = neighbor.g + neighbor.h;
-                }
-            }
-        }
-        // No path was found
-        return [];
-    }
-
     public Step() {
         if (!this.isRunning) return;
-        
-        console.log("Stepping");
 
+        console.log("Stepping");
+        const success = this.pathFinding.Step();
+        if (success) {
+            this.isRunning = false;
+            this.pathFinding.Finish();
+        }
     }
 }
 

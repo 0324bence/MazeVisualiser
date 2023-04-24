@@ -18,12 +18,11 @@ function mainLoop(time: number) {
     if (!((time - lastFrame) / 1000 > 1 / Settings.FPS)) return;
     lastFrame = time;
 
-
     currentGame.Loop();
 
     --framesUntilStep;
     if (framesUntilStep <= 0) {
-        framesUntilStep = 10;
+        framesUntilStep = 5;
         currentGame.Step();
     }
 }
