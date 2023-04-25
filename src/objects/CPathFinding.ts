@@ -1,7 +1,7 @@
 import BasePathFinding from "./BasePathFinding";
 import Cell, { CellType } from "./Cell";
 
-class Path extends BasePathFinding {
+class CPathFinding extends BasePathFinding {
     constructor(grid: Cell[][], startCoords: [number, number], endCoords: [number, number]) {
         super(grid, startCoords, endCoords);
     }
@@ -87,4 +87,4 @@ class Path extends BasePathFinding {
     }
 }
 
-export default Path;
+export default CPathFinding;

@@ -8,7 +8,8 @@ enum CellType {
     Wall,
     Route,
     Open,
-    Closed
+    Closed,
+    Current,
 }
 
 class Cell extends BaseRect {
@@ -49,6 +50,9 @@ class Cell extends BaseRect {
             case CellType.Closed:
                 this.ctx.fillStyle = "#05f";
                 break;
+            case CellType.Current:
+                this.ctx.fillStyle = "yellow";
+                break;
         }
 
         this.ctx.fillRect(
@@ -57,10 +61,27 @@ class Cell extends BaseRect {
             Settings.CELL_SIZE,
             Settings.CELL_SIZE
         );
+
+        this.ctx.beginPath();
+        this.ctx.strokeStyle = "black";
+        this.ctx.lineWidth = 1;
+        this.ctx.rect(
+            this.col * Settings.CELL_SIZE,
+            this.row * Settings.CELL_SIZE,
+            Settings.CELL_SIZE,
+            Settings.CELL_SIZE
+        );
+        this.ctx.stroke();
         //Debug cell numbers
 
-        this.ctx.font = "7px Arial";
-        this.ctx.fillStyle = "#000";
+        this.ctx.font = "14px Arial";
+        this.ctx.fillStyle = "green";
+        this.ctx.fillText(this._data.gScore ?? "x", this.col * Settings.CELL_SIZE+2, this.row * Settings.CELL_SIZE + 14);
+        this.ctx.fillStyle = "red";
+        this.ctx.fillText(this._data.hScore ?? "x", this.col * Settings.CELL_SIZE+22, this.row * Settings.CELL_SIZE + 14);
+        this.ctx.font = "16px Arial";
+        this.ctx.fillStyle = "orange";
+        this.ctx.fillText(this._data.fScore ?? "x", this.col * Settings.CELL_SIZE+14, this.row * Settings.CELL_SIZE + 30);
         //this.ctx.fillText(`${this.row} ${this.col}`, this.col * Settings.CELL_SIZE, this.row * Settings.CELL_SIZE + 5);
         //this.ctx.fillText(this.data.distance ?? "?", this.col * Settings.CELL_SIZE, this.row * Settings.CELL_SIZE + 5);
     }
