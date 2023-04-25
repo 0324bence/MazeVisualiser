@@ -1,7 +1,7 @@
 import Settings from "./Settings";
 import Cell, { CellType } from "./Cell";
 //import CPathFinding from "./CPathFinding";
-import AStarPathFinding from "./AStarPathFinding";
+import AStarPathFinding, { Coords } from "./AStarPathFinding";
 import BasePathFinding from "./BasePathFinding";
 import CPathFinding from "./CPathFinding";
 
@@ -18,14 +18,18 @@ class Game {
             }
         }
 
-        this.pathFinding = new AStarPathFinding(this.cells, [5, 5], [Settings.CELL_COUNT - 4, Settings.CELL_COUNT - 4]);
+
+        const startCoords = [14, 14] as Coords;
+        const endCoords = [1, 1] as Coords;
+
+        this.pathFinding = new AStarPathFinding(this.cells, startCoords, endCoords);
         //this.pathFinding = new CPathFinding(this.cells, [5, 5], [Settings.CELL_COUNT - 4, Settings.CELL_COUNT - 4]);
 
         //start
-        this.cells[5][5].type = CellType.Start;
+        this.cells[startCoords[0]][startCoords[1]].type = CellType.Start;
 
         //End
-        this.cells[Settings.CELL_COUNT - 4][Settings.CELL_COUNT - 4].type = CellType.End;
+        this.cells[endCoords[0]][endCoords[1]].type = CellType.End;
     }
 
     public Click(e: MouseEvent) {
@@ -48,11 +52,11 @@ class Game {
         if (e.key == " ") {
             this.isRunning = !this.isRunning;
             //console.log(this.isRunning ? "Started" : "Stopped");
-            const success = this.pathFinding.Step();
-            if (success) {
-                this.isRunning = false;
-                this.pathFinding.Finish();
-            }
+            //const success = this.pathFinding.Step();
+            //if (success) {
+            //    this.isRunning = false;
+            //    this.pathFinding.Finish();
+            //}
         }
     }
 
@@ -68,12 +72,12 @@ class Game {
     public Step() {
         if (!this.isRunning) return;
 
-        //console.log("Stepping");
-        //const success = this.pathFinding.Step();
-        //if (success) {
-        //    this.isRunning = false;
-        //    this.pathFinding.Finish();
-        //}
+        console.log("Stepping");
+        const success = this.pathFinding.Step();
+        if (success) {
+            this.isRunning = false;
+            this.pathFinding.Finish();
+        }
     }
 }
 
