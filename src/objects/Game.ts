@@ -46,12 +46,6 @@ class Game {
     public OnKeyPress(e: KeyboardEvent) {
         if (e.key == " ") {
             this.isRunning = !this.isRunning;
-            //console.log(this.isRunning ? "Started" : "Stopped");
-            const success = this.pathFinding.Step();
-            if (success) {
-                this.isRunning = false;
-                this.pathFinding.Finish();
-            }
         }
     }
 
@@ -67,12 +61,12 @@ class Game {
     public Step() {
         if (!this.isRunning) return;
 
-        //console.log("Stepping");
-        //const success = this.pathFinding.Step();
-        //if (success) {
-        //    this.isRunning = false;
-        //    this.pathFinding.Finish();
-        //}
+        console.log("Stepping");
+        const success = this.pathFinding.Step();
+        if (success) {
+            this.isRunning = false;
+            this.pathFinding.Finish();
+        }
     }
 }
 
