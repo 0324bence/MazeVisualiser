@@ -14,7 +14,7 @@ class AStarPathFinding extends BasePathFinding {
     private GetDistance(pos1: Coords, pos2: Coords): number {
         let rowDiff = Math.abs(pos1[0] - pos2[0]);
         let colDiff = Math.abs(pos1[1] - pos2[1]);
-        return Math.sqrt(rowDiff+colDiff);
+        return Math.sqrt(rowDiff + colDiff);
     }
 
     //private GetDistance(pos1: Coords, pos2: Coords): number {
@@ -31,15 +31,16 @@ class AStarPathFinding extends BasePathFinding {
             this.grid[node.row - 1] && this.grid[node.row - 1][node.col],
             this.grid[node.row + 1] && this.grid[node.row + 1][node.col],
             this.grid[node.row] && this.grid[node.row][node.col - 1],
-            this.grid[node.row] && this.grid[node.row][node.col + 1],
+            this.grid[node.row] && this.grid[node.row][node.col + 1]
 
             //this.grid[node.row - 1] && this.grid[node.col - 1] && this.grid[node.row - 1][node.col - 1],
             //this.grid[node.row + 1] && this.grid[node.col - 1] && this.grid[node.row + 1][node.col - 1],
             //this.grid[node.row - 1] && this.grid[node.col + 1] && this.grid[node.row - 1][node.col + 1],
             //this.grid[node.row + 1] && this.grid[node.col + 1] && this.grid[node.row + 1][node.col + 1]
         ];
-        return neighbours.filter(Boolean)
-                .filter(x => x.type == CellType.Open || x.type == CellType.Empty || x.type == CellType.End);
+        return neighbours
+            .filter(Boolean)
+            .filter(x => x.type == CellType.Open || x.type == CellType.Empty || x.type == CellType.End);
     }
 
     public Step(): boolean {
@@ -75,7 +76,7 @@ class AStarPathFinding extends BasePathFinding {
             cell.type = CellType.Closed;
             this.position = [nextCell?.row, nextCell?.col] as Coords;
         } else {
-            console.log("No route found")
+            console.log("No route found");
             return true;
         }
 
@@ -91,3 +92,4 @@ class AStarPathFinding extends BasePathFinding {
 }
 
 export default AStarPathFinding;
+export type { Coords };
