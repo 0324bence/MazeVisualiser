@@ -45,8 +45,12 @@ class Game {
 
     public OnKeyPress(e: KeyboardEvent) {
         if (e.key == " ") {
-            this.isRunning = !this.isRunning;
+            this.Toggle();
         }
+    }
+
+    public Toggle() {
+        this.isRunning = !this.isRunning;
     }
 
     public Loop() {
