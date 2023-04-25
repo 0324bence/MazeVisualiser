@@ -10,7 +10,9 @@ class Settings {
         startPos: [5, 5] as Coords,
         endPos: [Settings.CELL_COUNT - 4, Settings.CELL_COUNT - 4] as Coords,
         useDiagonals: true,
-        showCoords: false
+        showCoords: false,
+        framesBettweenSteps: 5,
+        showGrid: false
     };
 }
 
