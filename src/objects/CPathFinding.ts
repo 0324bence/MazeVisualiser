@@ -10,24 +10,6 @@ class CPathFinding extends BasePathFinding {
     private foundPath = 0;
     private currentIteration = 0;
 
-    private getValidNeighbours(node: Cell): Cell[] {
-        const diagonals = [
-            this.grid[node.row - 1] && this.grid[node.col - 1] && this.grid[node.row - 1][node.col - 1],
-            this.grid[node.row + 1] && this.grid[node.col - 1] && this.grid[node.row + 1][node.col - 1],
-            this.grid[node.row - 1] && this.grid[node.col + 1] && this.grid[node.row - 1][node.col + 1],
-            this.grid[node.row + 1] && this.grid[node.col + 1] && this.grid[node.row + 1][node.col + 1]
-        ];
-        //with diagonals
-        const neighbours: Cell[] = [
-            this.grid[node.row - 1] && this.grid[node.row - 1][node.col],
-            this.grid[node.row + 1] && this.grid[node.row + 1][node.col],
-            this.grid[node.row] && this.grid[node.row][node.col - 1],
-            this.grid[node.row] && this.grid[node.row][node.col + 1],
-            ...(diagonals || Settings.CUSTOMS.useDiagonals)
-        ];
-        return neighbours.filter(Boolean);
-    }
-
     public Step(): boolean {
         this.currentIteration++;
         const startCell = this.grid[this.startCoords[0]][this.startCoords[1]];
