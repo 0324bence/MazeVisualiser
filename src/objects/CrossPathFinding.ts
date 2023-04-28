@@ -14,7 +14,7 @@ class CrossPathFinding extends BasePathFinding{
         throw new Error("Method not implemented.");
     }
 
-    private getValidNeighbours(node: Cell, distance: number): (Cell|undefined)[] {
+    private getNeighbours(node: Cell, distance: number): (Cell|undefined)[] {
         //with diagonals
         const neighbours: Cell[] = [
             this.grid[node.row - distance] && this.grid[node.row - distance][node.col],
