@@ -22,7 +22,7 @@ function mainLoop(time: number) {
 
     --framesUntilStep;
     if (framesUntilStep <= 0) {
-        framesUntilStep = 1;
+        framesUntilStep = Settings.CUSTOMS.framesBettweenSteps;
         currentGame.Step();
     }
 }
