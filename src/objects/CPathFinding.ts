@@ -64,7 +64,9 @@ class CPathFinding extends BasePathFinding {
             for (let node of neighbours) {
                 console.log("Backtrace", node.row, node.col, node.data.distance, currentSmallest);
                 if (node.data.distance < currentSmallest) {
-                    node.type = CellType.Route;
+                    if (node.type != CellType.Start) {
+                        node.type = CellType.Route;
+                    }
                     currentSmallest = node.data.distance;
                     currentCell = node;
                     console.log("found a route");
