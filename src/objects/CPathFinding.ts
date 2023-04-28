@@ -37,7 +37,9 @@ class CPathFinding extends BasePathFinding {
                 //console.log("Open", node.row, node.col, `neighbour of: ${cell.row}, ${cell.col}`);
             }
             cell.data = { distance: this.currentIteration };
-            cell.type = CellType.Closed;
+            if (cell.type != CellType.Start) {
+                cell.type = CellType.Closed;
+            }
             //console.log("Close", cell.row, cell.col);
         }
         console.log(this.currentIteration, ">", this.foundPath, "&&", this.foundPath > 0);
