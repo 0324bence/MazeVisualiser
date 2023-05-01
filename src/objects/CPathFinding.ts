@@ -37,7 +37,9 @@ class CPathFinding extends BasePathFinding {
                 //console.log("Open", node.row, node.col, `neighbour of: ${cell.row}, ${cell.col}`);
             }
             cell.data = { distance: this.currentIteration };
-            cell.type = CellType.Closed;
+            if (cell.type != CellType.Start) {
+                cell.type = CellType.Closed;
+            }
             //console.log("Close", cell.row, cell.col);
         }
         console.log(this.currentIteration, ">", this.foundPath, "&&", this.foundPath > 0);
@@ -62,7 +64,9 @@ class CPathFinding extends BasePathFinding {
             for (let node of neighbours) {
                 console.log("Backtrace", node.row, node.col, node.data.distance, currentSmallest);
                 if (node.data.distance < currentSmallest) {
-                    node.type = CellType.Route;
+                    if (node.type != CellType.Start) {
+                        node.type = CellType.Route;
+                    }
                     currentSmallest = node.data.distance;
                     currentCell = node;
                     console.log("found a route");

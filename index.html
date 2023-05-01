@@ -9,6 +9,26 @@
     <body>
         <div id="main-container">
             <canvas id="main-canvas"></canvas>
+            <div id="sidebar">
+                <div id="settings-container">
+                    <div>
+                        <input type="checkbox" id="useDiagonalsCheckbox" name="useDiagonalsCheckbox" />
+                        <label for="useDiagonalsCheckbox">Átlós mozgás</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="showCoordsCheckbox" />
+                        <label for="showCoordsCheckbox">Koordináták mutatása</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="showGridCheckbox" />
+                        <label for="showGridCheckbox">Rács mutatása</label>
+                    </div>
+                </div>
+                <div id="controls-container">
+                    <button id="startButton">Indítás</button>
+                    <button id="resetButton">Visszaállítás</button>
+                </div>
+            </div>
         </div>
         <script type="module" src="/src/main.ts"></script>
     </body>

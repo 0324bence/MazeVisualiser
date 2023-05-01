@@ -25,21 +25,8 @@ class AStarPathFinding extends BasePathFinding {
         return this.grid[pos[0]][pos[1]];
     }
 
-    private getValidNeighbours(node: Cell): Cell[] {
-        //with diagonals
-        const neighbours: Cell[] = [
-            this.grid[node.row - 1] && this.grid[node.row - 1][node.col],
-            this.grid[node.row + 1] && this.grid[node.row + 1][node.col],
-            this.grid[node.row] && this.grid[node.row][node.col - 1],
-            this.grid[node.row] && this.grid[node.row][node.col + 1]
-
-            //this.grid[node.row - 1] && this.grid[node.col - 1] && this.grid[node.row - 1][node.col - 1],
-            //this.grid[node.row + 1] && this.grid[node.col - 1] && this.grid[node.row + 1][node.col - 1],
-            //this.grid[node.row - 1] && this.grid[node.col + 1] && this.grid[node.row - 1][node.col + 1],
-            //this.grid[node.row + 1] && this.grid[node.col + 1] && this.grid[node.row + 1][node.col + 1]
-        ];
-        return neighbours
-            .filter(Boolean)
+    protected getValidNeighbours(node: Cell): Cell[] {
+        return super.getValidNeighbours(node)
             .filter(x => x.type == CellType.Open || x.type == CellType.Empty || x.type == CellType.End);
     }
 
