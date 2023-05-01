@@ -33,4 +33,30 @@ canvas.addEventListener("mousemove", currentGame.Move.bind(currentGame));
 canvas.addEventListener("mousedown", currentGame.Click.bind(currentGame));
 document.addEventListener("keydown", currentGame.OnKeyPress.bind(currentGame));
 
-export {};
+(document
+    .getElementById("useDiagonalsCheckbox") as HTMLInputElement).checked = Settings.CUSTOMS.useDiagonals;
+document
+    .getElementById("useDiagonalsCheckbox")
+    ?.addEventListener("change", () => (Settings.CUSTOMS.useDiagonals = !Settings.CUSTOMS.useDiagonals));
+
+(document
+    .getElementById("showCoordsCheckbox") as HTMLInputElement).checked = Settings.CUSTOMS.showCoords;
+document
+    .getElementById("showCoordsCheckbox")
+    ?.addEventListener("change", () => (Settings.CUSTOMS.showCoords = !Settings.CUSTOMS.showCoords));
+
+(document
+    .getElementById("showGridCheckbox") as HTMLInputElement).checked = Settings.CUSTOMS.showGrid;
+document
+    .getElementById("showGridCheckbox")
+    ?.addEventListener("change", () => (Settings.CUSTOMS.showGrid = !Settings.CUSTOMS.showGrid));
+
+document
+    .getElementById("startButton")
+    ?.addEventListener("click", () => (currentGame.isRunning = true));
+
+document
+    .getElementById("resetButton")
+    ?.addEventListener("click", () => (currentGame.Reset()));
+
+export { };

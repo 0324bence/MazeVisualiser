@@ -10,6 +10,13 @@ class Game {
     public pathFinding: BasePathFinding;
 
     constructor(public ctx: CanvasRenderingContext2D, public canvas: HTMLCanvasElement) {
+        this.pathFinding = new CPathFinding(this.cells, Settings.CUSTOMS.startPos, Settings.CUSTOMS.endPos);
+        this.Reset();
+    }
+
+    public Reset() {
+        this.isRunning = false;
+
         for (let row = 0; row < Settings.CELL_COUNT; row++) {
             this.cells[row] = new Array(Settings.CELL_COUNT);
             for (let cell = 0; cell < Settings.CELL_COUNT; cell++) {
@@ -17,8 +24,7 @@ class Game {
             }
         }
 
-        //this.pathFinding = new AStarPathFinding(this.cells, Settings.CUSTOMS.startPos, Settings.CUSTOMS.endPos);
-        this.pathFinding = new CPathFinding(this.cells, [5, 5], [Settings.CELL_COUNT - 4, Settings.CELL_COUNT - 4]);
+        this.pathFinding = new CPathFinding(this.cells, Settings.CUSTOMS.startPos, Settings.CUSTOMS.endPos);
 
         //start
         this.cells[Settings.CUSTOMS.startPos[0]][Settings.CUSTOMS.startPos[1]].type = CellType.Start;
