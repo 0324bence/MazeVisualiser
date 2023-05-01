@@ -7,25 +7,84 @@
     box-sizing: border-box;
 }
 
-button {
-    cursor: pointer;
+#main-canvas {
+    max-width: 80%;
 }
 
 #main-container {
     width: 100%;
     height: 100vh;
     display: flex;
-    justify-content: start;
-    padding-left: 40px;
+    justify-content: center;
+    padding: 40px;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 20px 50px;
 }
 
 #main-canvas {
     border: 1px solid black;
+}
 
+#sidebar {
+    padding: 20px;
+    border: 2px solid gray;
+    border-radius: 6px;
+}
+
+#controls-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 #settings-container {
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
+}
+
+#settings-container>div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 10px;
+}
+
+label {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    cursor: pointer;
+    accent-color: rgb(51, 179, 230);
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+input[type="checkbox"]:hover {
+    accent-color: rgb(51, 179, 230);
+}
+
+button {
+    cursor: pointer;
+    padding: 10px;
+    border: none;
+    background: skyblue;
+    width: 7.5rem;
+    height: 2.2rem;
+}
+
+button:hover {
+    background: rgb(51, 179, 230);
+}
+
+button:active {
+    background: skyblue;
 }
