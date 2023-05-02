@@ -8,6 +8,7 @@ class Game {
     public cells: Cell[][] = new Array(Settings.CELL_COUNT);
     public isRunning = false;
     public pathFinding: BasePathFinding;
+    public isFinished = false;
 
     constructor(public ctx: CanvasRenderingContext2D, public canvas: HTMLCanvasElement) {
         this.pathFinding = new CPathFinding(this.cells, Settings.CUSTOMS.startPos, Settings.CUSTOMS.endPos);
@@ -16,6 +17,7 @@ class Game {
 
     public Reset() {
         this.isRunning = false;
+        this.isFinished = false;
 
         for (let row = 0; row < Settings.CELL_COUNT; row++) {
             this.cells[row] = new Array(Settings.CELL_COUNT);
@@ -69,13 +71,13 @@ class Game {
     }
 
     public Step() {
-        if (!this.isRunning) return;
+        if (!this.isRunning || this.isFinished) return;
 
         console.log("Stepping");
         const success = this.pathFinding.Step();
         if (success) {
             this.isRunning = false;
-            this.pathFinding.Finish();
+            this.pathFinding.Finish().then(() => { this.isFinished = true });
         }
     }
 }
