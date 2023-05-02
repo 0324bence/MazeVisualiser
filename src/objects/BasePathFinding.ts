@@ -2,7 +2,7 @@ import Cell from "./Cell";
 import Settings from "./Settings";
 
 abstract class BasePathFinding {
-    constructor(protected grid: Cell[][], public startCoords: [number, number], public endCoords: [number, number]) {}
+    constructor(protected grid: Cell[][], public startCoords: [number, number], public endCoords: [number, number]) { }
 
     abstract Step(): boolean;
     abstract Finish(): Promise<void>;
@@ -20,7 +20,7 @@ abstract class BasePathFinding {
             this.grid[node.row + 1] && this.grid[node.row + 1][node.col],
             this.grid[node.row] && this.grid[node.row][node.col - 1],
             this.grid[node.row] && this.grid[node.row][node.col + 1],
-            ...(diagonals || Settings.CUSTOMS.useDiagonals)
+            ...(Settings.CUSTOMS.useDiagonals ? diagonals : [])
         ];
         return neighbours.filter(Boolean);
     }
