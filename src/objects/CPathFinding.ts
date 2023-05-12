@@ -1,6 +1,5 @@
 import BasePathFinding from "./BasePathFinding";
 import Cell, { CellType } from "./Cell";
-import Settings from "./Settings";
 
 class CPathFinding extends BasePathFinding {
     constructor(grid: Cell[][], startCoords: [number, number], endCoords: [number, number]) {
@@ -89,7 +88,7 @@ class CPathFinding extends BasePathFinding {
         }
         this.currentIteration = 0;
         this.foundPath = 0;
-        while (!this.Step()) { }
+        while (!this.Step()) {}
         this.Finish();
     }
 }
