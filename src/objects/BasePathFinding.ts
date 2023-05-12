@@ -2,10 +2,10 @@ import Cell from "./Cell";
 import Settings from "./Settings";
 
 abstract class BasePathFinding {
-    constructor(protected grid: Cell[][], public startCoords: [number, number], public endCoords: [number, number]) {}
+    constructor(protected grid: Cell[][], public startCoords: [number, number], public endCoords: [number, number]) { }
 
     abstract Step(): boolean;
-    abstract Finish(): Promise<void>;
+    abstract Finish(): void;
     abstract InstantSolve(): void;
 
     protected getValidNeighbours(node: Cell): Cell[] {

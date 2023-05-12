@@ -7,11 +7,12 @@ import CPathFinding from "./CPathFinding";
 class Game {
     public cells: Cell[][] = new Array(Settings.CELL_COUNT);
     public isRunning = false;
-    public pathFinding: BasePathFinding;
+    public pathFinding!: BasePathFinding;
     public isFinished = false;
+    public clickStartCellType: CellType = CellType.Empty;
 
     constructor(public ctx: CanvasRenderingContext2D, public canvas: HTMLCanvasElement) {
-        this.pathFinding = new CPathFinding(this.cells, Settings.CUSTOMS.startPos, Settings.CUSTOMS.endPos);
+        this.InitPathFinder();
         this.Reset();
     }
 
@@ -26,7 +27,7 @@ class Game {
             }
         }
 
-        this.pathFinding = new CPathFinding(this.cells, Settings.CUSTOMS.startPos, Settings.CUSTOMS.endPos);
+        this.InitPathFinder();
 
         //start
         this.cells[Settings.CUSTOMS.startPos[0]][Settings.CUSTOMS.startPos[1]].type = CellType.Start;
@@ -35,19 +36,70 @@ class Game {
         this.cells[Settings.CUSTOMS.endPos[0]][Settings.CUSTOMS.endPos[1]].type = CellType.End;
     }
 
+    private InitPathFinder() {
+        this.pathFinding = new CPathFinding(this.cells, Settings.CUSTOMS.startPos, Settings.CUSTOMS.endPos);
+    }
+
+    private GetCellAtPixelCoords(x1: number, y1: number): Cell | undefined {
+        const rect = this.canvas.getBoundingClientRect();
+        const x = x1 - rect.left;
+        const y = y1 - rect.top;
+        const col = Math.floor(x / Settings.CELL_SIZE);
+        const row = Math.floor(y / Settings.CELL_SIZE);
+        if (col < 0 || col >= Settings.CELL_COUNT || row < 0 || row >= Settings.CELL_COUNT) return undefined;
+        return this.cells[row][col];
+    }
+
     public Click(e: MouseEvent) {
+        const cell = this.GetCellAtPixelCoords(e.clientX, e.clientY);
+        if (!cell) return;
+        this.clickStartCellType = cell.type;
         this.Move(e);
     }
 
     public Move(e: MouseEvent) {
+        if (this.isRunning) return;
         if (e.buttons === 1) {
-            const rect = this.canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const col = Math.floor(x / Settings.CELL_SIZE);
-            const row = Math.floor(y / Settings.CELL_SIZE);
-            if (col < 0 || col >= Settings.CELL_COUNT || row < 0 || row >= Settings.CELL_COUNT) return;
-            this.cells[row][col].type = CellType.Wall;
+            const cell = this.GetCellAtPixelCoords(e.clientX, e.clientY);
+            if (!cell) return;
+            const startCell = this.cells[Settings.CUSTOMS.startPos[0]][Settings.CUSTOMS.startPos[1]];
+            const endCell = this.cells[Settings.CUSTOMS.endPos[0]][Settings.CUSTOMS.endPos[1]];
+            switch (this.clickStartCellType) {
+                case CellType.Start:
+                    if (cell.type == CellType.End || cell.type == CellType.Wall) {
+                        return;
+                    }
+                    startCell.type = CellType.Empty;
+                    cell.type = CellType.Start;
+
+                    Settings.CUSTOMS.startPos = [cell.row, cell.col];
+                    this.InitPathFinder();
+                    if (this.isFinished)
+                        this.pathFinding.InstantSolve();
+                    break;
+
+                case CellType.End:
+                    if (cell.type == CellType.Start || cell.type == CellType.Wall) {
+                        return;
+                    }
+                    endCell.type = CellType.Empty;
+                    cell.type = CellType.End;
+
+                    Settings.CUSTOMS.endPos = [cell.row, cell.col];
+                    this.InitPathFinder();
+                    if (this.isFinished)
+                        this.pathFinding.InstantSolve();
+                    break;
+
+                default:
+                    if (cell.type == CellType.Start || cell.type == CellType.End) {
+                        return
+                    }
+                    cell.type = CellType.Wall;
+                    if (this.isFinished)
+                        this.pathFinding.InstantSolve();
+                    break;
+            }
         }
     }
 
@@ -77,7 +129,8 @@ class Game {
         const success = this.pathFinding.Step();
         if (success) {
             this.isRunning = false;
-            this.pathFinding.Finish().then(() => { this.isFinished = true });
+            this.pathFinding.Finish()
+            this.isFinished = true;
         }
     }
 }
