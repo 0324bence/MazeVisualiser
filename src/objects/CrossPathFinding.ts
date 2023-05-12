@@ -29,28 +29,78 @@ class CrossPathFinding extends BasePathFinding{
         return neighbours.map(i => i && i.type === CellType.Wall ? undefined : i);
     }
     
-    private getDirection(node: Cell): Cell[] {
-    
-        var bools  = [true,true,true,true]
-        var cells = new Array<Array<Cell>>(4).fill(new Array<Cell>(0))
-  
-
-        var distance = 1;
-        while(bools.includes(true)){
-            var neighbours = this.getValidNeighbours(node, distance);
-            
-            for (var i = 0; i < neighbours.length; i++){
-                if (!neighbours[i]){
-                    cells[i].push(neighbours[i]!)
-                }
+    private getDirections(startCoordinates: [number, number], grid: string[][]) {
+        const distanceFromTop = startCoordinates[0];
+        const distanceFromLeft = startCoordinates[1];
+        const location = {
+          distanceFromTop,
+          distanceFromLeft,
+          path: [],
+          status: "Start"
+        };
+        const queue = [location];
+      
+        while (queue.length > 0) {
+          const currentLocation = queue.shift();
+          const directions = ["North", "East", "South", "West"];
+          for (let i = 0; i < directions.length; i++) {
+            const newLocation = exploreInDirection(
+              currentLocation,
+              directions[i],
+              grid
+            );
+            if (newLocation.status === "Goal") {
+              return newLocation.path;
+            } else if (newLocation.status === "Valid") {
+              queue.push(newLocation);
             }
-
-            distance++;
+          }
         }
-    
-        return new Array;
-    
+      
+        return false;
+      }
+      
+      private exploreInDirection(
+        currentLocation: {
+          distanceFromTop: number;
+          distanceFromLeft: number;
+          path: string[];
+          status: string;
+        },
+        direction: string,
+        grid: string[][]
+      ) {
+        const newPath = currentLocation.path.slice();
+        newPath.push(direction);
+      
+        let row = currentLocation.distanceFromTop;
+        let col = currentLocation.distanceFromLeft;
+      
+        if (direction === "North") {
+          row -= 1;
+        } else if (direction === "East") {
+          col += 1;
+        } else if (direction === "South") {
+          row += 1;
+        } else if (direction === "West") {
+          col -= 1;
+        }
+      
+        if (
+          row < 0 ||
+          row >= grid.length ||
+          col < 0 ||
+          col >= grid[0].length ||
+          grid[row][col] === "Visited"
+        ) {
+          return { status: "Invalid", path: [] };
+        }
+      
+        if (grid[row][col] === "Goal") {
+          return { status: "Goal", path: newPath };
+        } else {
+          return { status: "Valid", path: newPath, distanceFromTop: row, distanceFromLeft: col };
+        }
+      }
+
     }
-
-
-}
