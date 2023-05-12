@@ -131,11 +131,14 @@ class Game {
         if (!this.isRunning || this.isFinished) return;
 
         console.log("Stepping");
+        document.getElementById("useDiagonalsCheckbox")!.setAttribute("disabled", "true")
         const success = this.pathFinding.Step();
         if (success) {
             this.isRunning = false;
             this.pathFinding.Finish();
             this.isFinished = true;
+
+            document.getElementById("useDiagonalsCheckbox")!.removeAttribute("disabled")
         }
     }
 }
