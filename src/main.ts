@@ -52,6 +52,12 @@ document
     ?.addEventListener("change", () => (Settings.CUSTOMS.showGrid = !Settings.CUSTOMS.showGrid));
 
 document
+    .getElementById("speedRange")
+    ?.addEventListener("input", (e) => (
+        Settings.CUSTOMS.framesBettweenSteps = (60 - Number((e.target as HTMLInputElement).value))
+    ));
+
+document
     .getElementById("startButton")
     ?.addEventListener("click", () => (currentGame.isRunning = true));
 
