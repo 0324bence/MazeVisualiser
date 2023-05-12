@@ -75,6 +75,21 @@ class CPathFinding extends BasePathFinding {
             }
         }
     }
+
+    public InstantSolve() {
+        //Reset grid to empty cells where not start or end or wall
+        for (let row of this.grid) {
+            for (let cell of row) {
+                if (cell.type != CellType.Start && cell.type != CellType.End && cell.type != CellType.Wall) {
+                    cell.type = CellType.Empty;
+                }
+            }
+        }
+        this.currentIteration = 0;
+        this.foundPath = 0;
+        while (!this.Step()) {}
+        this.Finish();
+    }
 }
 
 export default CPathFinding;
