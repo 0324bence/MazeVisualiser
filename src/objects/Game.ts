@@ -74,8 +74,7 @@ class Game {
 
                     Settings.CUSTOMS.startPos = [cell.row, cell.col];
                     this.InitPathFinder();
-                    if (this.isFinished)
-                        this.pathFinding.InstantSolve();
+                    if (this.isFinished) this.pathFinding.InstantSolve();
                     break;
 
                 case CellType.End:
@@ -87,17 +86,23 @@ class Game {
 
                     Settings.CUSTOMS.endPos = [cell.row, cell.col];
                     this.InitPathFinder();
-                    if (this.isFinished)
-                        this.pathFinding.InstantSolve();
+                    if (this.isFinished) this.pathFinding.InstantSolve();
+                    break;
+
+                case CellType.Wall:
+                    if (cell.type == CellType.Start || cell.type == CellType.End) {
+                        return;
+                    }
+                    cell.type = CellType.Empty;
+                    if (this.isFinished) this.pathFinding.InstantSolve();
                     break;
 
                 default:
                     if (cell.type == CellType.Start || cell.type == CellType.End) {
-                        return
+                        return;
                     }
                     cell.type = CellType.Wall;
-                    if (this.isFinished)
-                        this.pathFinding.InstantSolve();
+                    if (this.isFinished) this.pathFinding.InstantSolve();
                     break;
             }
         }
@@ -129,7 +134,7 @@ class Game {
         const success = this.pathFinding.Step();
         if (success) {
             this.isRunning = false;
-            this.pathFinding.Finish()
+            this.pathFinding.Finish();
             this.isFinished = true;
         }
     }
