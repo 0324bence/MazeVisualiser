@@ -43,12 +43,12 @@ class CrossPathFinding extends BasePathFinding{
                 if (!neighbours[i]){
                     cells[i].push(neighbours[i]!)
                 }
-
             }
 
             distance++;
         }
     
+        return new Array;
     
     }
 
