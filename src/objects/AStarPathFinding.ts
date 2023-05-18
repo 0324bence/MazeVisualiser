@@ -4,6 +4,9 @@ import Cell, { CellType } from "./Cell";
 type Coords = [number, number];
 
 class AStarPathFinding extends BasePathFinding {
+    InstantSolve(): void {
+        throw new Error("Method not implemented.");
+    }
     constructor(grid: Cell[][], startCoords: Coords, endCoords: Coords) {
         super(grid, startCoords, endCoords);
         this.position = startCoords;
@@ -26,7 +29,8 @@ class AStarPathFinding extends BasePathFinding {
     }
 
     protected getValidNeighbours(node: Cell): Cell[] {
-        return super.getValidNeighbours(node)
+        return super
+            .getValidNeighbours(node)
             .filter(x => x.type == CellType.Open || x.type == CellType.Empty || x.type == CellType.End);
     }
 
