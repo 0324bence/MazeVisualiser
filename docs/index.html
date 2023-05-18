@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Vite + TS</title>
+      <script type="module" crossorigin src="./assets/index-ff472af2.js"></script>
+      <link rel="stylesheet" href="./assets/index-31e16acd.css">
+    </head>
+    <body>
+        <div id="main-container">
+            <canvas id="main-canvas"></canvas>
+            <div id="sidebar">
+                <div id="settings-container">
+                    <div>
+                        <input type="checkbox" id="useDiagonalsCheckbox" name="useDiagonalsCheckbox" />
+                        <label for="useDiagonalsCheckbox">Átlós mozgás</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="showCoordsCheckbox" />
+                        <label for="showCoordsCheckbox">Koordináták mutatása</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="showGridCheckbox" />
+                        <label for="showGridCheckbox">Rács mutatása</label>
+                    </div>
+                    <div>
+                        <label for="speedRange">Sebesség:</label>
+                        <input type="range" id="speedRange" min="0" max="55" value="55" />
+                    </div>
+                </div>
+                <div id="controls-container">
+                    <button id="startButton">Indítás</button>
+                    <button id="resetButton">Visszaállítás</button>
+                </div>
+            </div>
+        </div>
+        
+    </body>
+</html>
