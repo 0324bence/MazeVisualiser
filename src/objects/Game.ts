@@ -34,6 +34,9 @@ class Game {
 
         //End
         this.cells[Settings.CUSTOMS.endPos[0]][Settings.CUSTOMS.endPos[1]].type = CellType.End;
+
+        //Remove disabled
+        document.getElementById("useDiagonalsCheckbox")!.removeAttribute("disabled");
     }
 
     private InitPathFinder() {
@@ -114,6 +117,11 @@ class Game {
         }
     }
 
+    public ToggleDiagonals() {
+        Settings.CUSTOMS.useDiagonals = !Settings.CUSTOMS.useDiagonals;
+        if (this.isFinished) this.pathFinding.InstantSolve();
+    }
+
     public Toggle() {
         this.isRunning = !this.isRunning;
     }
@@ -131,14 +139,14 @@ class Game {
         if (!this.isRunning || this.isFinished) return;
 
         console.log("Stepping");
-        document.getElementById("useDiagonalsCheckbox")!.setAttribute("disabled", "true")
+        document.getElementById("useDiagonalsCheckbox")!.setAttribute("disabled", "true");
         const success = this.pathFinding.Step();
         if (success) {
             this.isRunning = false;
             this.pathFinding.Finish();
             this.isFinished = true;
 
-            document.getElementById("useDiagonalsCheckbox")!.removeAttribute("disabled")
+            document.getElementById("useDiagonalsCheckbox")!.removeAttribute("disabled");
         }
     }
 }

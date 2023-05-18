@@ -33,36 +33,30 @@ canvas.addEventListener("mousemove", currentGame.Move.bind(currentGame));
 canvas.addEventListener("mousedown", currentGame.Click.bind(currentGame));
 document.addEventListener("keydown", currentGame.OnKeyPress.bind(currentGame));
 
-(document
-    .getElementById("useDiagonalsCheckbox") as HTMLInputElement).checked = Settings.CUSTOMS.useDiagonals;
+(document.getElementById("useDiagonalsCheckbox") as HTMLInputElement).checked = Settings.CUSTOMS.useDiagonals;
 document
     .getElementById("useDiagonalsCheckbox")
-    ?.addEventListener("change", () => (Settings.CUSTOMS.useDiagonals = !Settings.CUSTOMS.useDiagonals));
+    ?.addEventListener("change", currentGame.ToggleDiagonals.bind(currentGame));
 
-(document
-    .getElementById("showCoordsCheckbox") as HTMLInputElement).checked = Settings.CUSTOMS.showCoords;
+(document.getElementById("showCoordsCheckbox") as HTMLInputElement).checked = Settings.CUSTOMS.showCoords;
 document
     .getElementById("showCoordsCheckbox")
     ?.addEventListener("change", () => (Settings.CUSTOMS.showCoords = !Settings.CUSTOMS.showCoords));
 
-(document
-    .getElementById("showGridCheckbox") as HTMLInputElement).checked = Settings.CUSTOMS.showGrid;
+(document.getElementById("showGridCheckbox") as HTMLInputElement).checked = Settings.CUSTOMS.showGrid;
 document
     .getElementById("showGridCheckbox")
     ?.addEventListener("change", () => (Settings.CUSTOMS.showGrid = !Settings.CUSTOMS.showGrid));
 
 document
     .getElementById("speedRange")
-    ?.addEventListener("input", (e) => (
-        Settings.CUSTOMS.framesBettweenSteps = (60 - Number((e.target as HTMLInputElement).value))
-    ));
+    ?.addEventListener(
+        "input",
+        e => (Settings.CUSTOMS.framesBettweenSteps = 60 - Number((e.target as HTMLInputElement).value))
+    );
 
-document
-    .getElementById("startButton")
-    ?.addEventListener("click", () => (currentGame.isRunning = true));
+document.getElementById("startButton")?.addEventListener("click", () => (currentGame.isRunning = true));
 
-document
-    .getElementById("resetButton")
-    ?.addEventListener("click", () => (currentGame.Reset()));
+document.getElementById("resetButton")?.addEventListener("click", () => currentGame.Reset());
 
-export { };
+export {};
